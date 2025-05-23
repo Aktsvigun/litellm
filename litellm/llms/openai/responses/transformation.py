@@ -251,7 +251,7 @@ class OpenAIResponsesAPIConfig(BaseResponsesAPIConfig):
                 message=raw_response.text, status_code=raw_response.status_code
             )
         return DeleteResponseResult(**raw_response_json)
-    
+
     #########################################################
     ########## GET RESPONSE API TRANSFORMATION ###############
     #########################################################
@@ -271,7 +271,7 @@ class OpenAIResponsesAPIConfig(BaseResponsesAPIConfig):
         url = f"{api_base}/{response_id}"
         data: Dict = {}
         return url, data
-    
+
     def transform_get_response_api_response(
         self,
         raw_response: httpx.Response,

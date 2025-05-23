@@ -17,4 +17,4 @@ class NebiusCredentials(TypedDict):
 class NebiusAIEndpoint(str, Enum):
     TEXT_GENERATION = "/text/completions"
     CHAT = "/chat/completions"
-    EMBEDDINGS = "/embeddings" 
+    EMBEDDINGS = "/embeddings"

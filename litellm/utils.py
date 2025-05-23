@@ -3980,9 +3980,7 @@ def get_api_key(llm_provider: str, dynamic_api_key: Optional[str]):
         )
     # nebius
     elif llm_provider == "nebius":
-        api_key = (
-            api_key or litellm.nebius_key or get_secret("NEBIUS_API_KEY")
-        )
+        api_key = api_key or litellm.nebius_key or get_secret("NEBIUS_API_KEY")
     return api_key
 
 
@@ -6536,8 +6534,6 @@ class ProviderConfigManager:
             from litellm.llms.cohere.embed.transformation import CohereEmbeddingConfig
 
             return CohereEmbeddingConfig()
-        elif litellm.LlmProviders.NEBIUS == provider:
-            return litellm.NebiusEmbeddingConfig()
         return None
 
     @staticmethod
@@ -6636,6 +6632,7 @@ class ProviderConfigManager:
         elif LlmProviders.OLLAMA == provider or LlmProviders.OLLAMA_CHAT == provider:
             # Dynamic model listing for Ollama server
             from litellm.llms.ollama.common_utils import OllamaModelInfo
+
             return OllamaModelInfo()
         elif LlmProviders.VLLM == provider:
             from litellm.llms.vllm.common_utils import (

@@ -191,11 +191,11 @@ def responses(
         )
 
         # get provider config
-        responses_api_provider_config: Optional[BaseResponsesAPIConfig] = (
-            ProviderConfigManager.get_provider_responses_api_config(
-                model=model,
-                provider=litellm.LlmProviders(custom_llm_provider),
-            )
+        responses_api_provider_config: Optional[
+            BaseResponsesAPIConfig
+        ] = ProviderConfigManager.get_provider_responses_api_config(
+            model=model,
+            provider=litellm.LlmProviders(custom_llm_provider),
         )
 
         local_vars.update(kwargs)
@@ -385,11 +385,11 @@ def delete_responses(
             raise ValueError("custom_llm_provider is required but passed as None")
 
         # get provider config
-        responses_api_provider_config: Optional[BaseResponsesAPIConfig] = (
-            ProviderConfigManager.get_provider_responses_api_config(
-                model=None,
-                provider=litellm.LlmProviders(custom_llm_provider),
-            )
+        responses_api_provider_config: Optional[
+            BaseResponsesAPIConfig
+        ] = ProviderConfigManager.get_provider_responses_api_config(
+            model=None,
+            provider=litellm.LlmProviders(custom_llm_provider),
         )
 
         if responses_api_provider_config is None:
@@ -435,6 +435,7 @@ def delete_responses(
             extra_kwargs=kwargs,
         )
 
+
 @client
 async def aget_responses(
     response_id: str,
@@ -450,13 +451,13 @@ async def aget_responses(
 ) -> ResponsesAPIResponse:
     """
     Async: Fetch a response by its ID.
-    
+
     GET /v1/responses/{response_id} endpoint in the responses API
-    
+
     Args:
         response_id: The ID of the response to fetch.
         custom_llm_provider: Optional provider name. If not specified, will be decoded from response_id.
-        
+
     Returns:
         The response object with complete information about the stored response.
     """
@@ -496,7 +497,7 @@ async def aget_responses(
         else:
             response = init_response
 
-         # Update the responses_api_response_id with the model_id
+        # Update the responses_api_response_id with the model_id
         if isinstance(response, ResponsesAPIResponse):
             response = ResponsesAPIRequestUtils._update_responses_api_response_id_with_model_id(
                 responses_api_response=response,
@@ -513,6 +514,7 @@ async def aget_responses(
             extra_kwargs=kwargs,
         )
 
+
 @client
 def get_responses(
     response_id: str,
@@ -528,13 +530,13 @@ def get_responses(
 ) -> Union[ResponsesAPIResponse, Coroutine[Any, Any, ResponsesAPIResponse]]:
     """
     Fetch a response by its ID.
-    
+
     GET /v1/responses/{response_id} endpoint in the responses API
-    
+
     Args:
         response_id: The ID of the response to fetch.
         custom_llm_provider: Optional provider name. If not specified, will be decoded from response_id.
-        
+
     Returns:
         The response object with complete information about the stored response.
     """
@@ -562,11 +564,11 @@ def get_responses(
             raise ValueError("custom_llm_provider is required but passed as None")
 
         # get provider config
-        responses_api_provider_config: Optional[BaseResponsesAPIConfig] = (
-            ProviderConfigManager.get_provider_responses_api_config(
-                model=None,
-                provider=litellm.LlmProviders(custom_llm_provider),
-            )
+        responses_api_provider_config: Optional[
+            BaseResponsesAPIConfig
+        ] = ProviderConfigManager.get_provider_responses_api_config(
+            model=None,
+            provider=litellm.LlmProviders(custom_llm_provider),
         )
 
         if responses_api_provider_config is None:

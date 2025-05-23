@@ -348,7 +348,7 @@ openai_text_completion_compatible_providers: List = (
         "meta_llama",
         "llamafile",
         "featherless_ai",
-        "nebius"
+        "nebius",
     ]
 )
 _openai_like_providers: List = [

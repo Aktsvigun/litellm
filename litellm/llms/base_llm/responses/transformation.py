@@ -156,7 +156,7 @@ class BaseResponsesAPIConfig(ABC):
         headers: dict,
     ) -> Tuple[str, Dict]:
         pass
-    
+
     @abstractmethod
     def transform_get_response_api_response(
         self,
@@ -168,7 +168,7 @@ class BaseResponsesAPIConfig(ABC):
     #########################################################
     ########## END GET RESPONSE API TRANSFORMATION ##########
     #########################################################
-    
+
     def get_error_class(
         self, error_message: str, status_code: int, headers: Union[dict, httpx.Headers]
     ) -> BaseLLMException:

@@ -84,7 +84,7 @@ def _get_vertex_url(
         endpoint = "generateContent"
         if stream is True:
             endpoint = "streamGenerateContent"
-            if vertex_location== "global":
+            if vertex_location == "global":
                 url = f"https://aiplatform.googleapis.com/{vertex_api_version}/projects/{vertex_project}/locations/global/publishers/google/models/{model}:{endpoint}?alt=sse"
             else:
                 url = f"https://{vertex_location}-aiplatform.googleapis.com/{vertex_api_version}/projects/{vertex_project}/locations/{vertex_location}/publishers/google/models/{model}:{endpoint}?alt=sse"

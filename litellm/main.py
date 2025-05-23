@@ -172,7 +172,6 @@ from .llms.vertex_ai.multimodal_embeddings.embedding_handler import (
 from .llms.vertex_ai.text_to_speech.text_to_speech_handler import VertexTextToSpeechAPI
 from .llms.vertex_ai.vertex_ai_partner_models.main import VertexAIPartnerModels
 from .llms.vertex_ai.vertex_embeddings.embedding_handler import VertexEmbedding
-from litellm.llms.nebius.embed.handler import nebius_embeddings
 from .llms.vertex_ai.vertex_model_garden.main import VertexAIModelGardenModels
 from .llms.vllm.completion import handler as vllm_handler
 from .llms.watsonx.chat.handler import WatsonXChatHandler
@@ -3924,18 +3923,24 @@ def embedding(  # noqa: PLR0915
             )
         elif custom_llm_provider == "nebius":
             api_key = api_key or litellm.api_key or get_secret_str("NEBIUS_API_KEY")
-            api_base = api_base or litellm.api_base or get_secret_str("NEBIUS_API_BASE") or "api.studio.nebius.ai/v1"
-            
-            response = nebius_embeddings(
+            api_base = (
+                api_base
+                or litellm.api_base
+                or get_secret_str("NEBIUS_API_BASE")
+                or "api.studio.nebius.ai/v1"
+            )
+
+            response = openai_chat_completions.embedding(
                 model=model,
                 input=input,
-                api_key=api_key,
                 api_base=api_base,
+                api_key=api_key,
                 logging_obj=logging,
+                timeout=timeout,
                 model_response=EmbeddingResponse(),
                 optional_params=optional_params,
-                litellm_params=litellm_params_dict,
-                logger_fn=logger_fn,
+                client=client,
+                aembedding=aembedding,
             )
         elif custom_llm_provider == "voyage":
             response = base_llm_http_handler.embedding(
@@ -4044,9 +4049,7 @@ def embedding(  # noqa: PLR0915
                 client=client,
                 aembedding=aembedding,
             )
-        elif (
-            custom_llm_provider in litellm._custom_providers
-        ):
+        elif custom_llm_provider in litellm._custom_providers:
             custom_handler: Optional[CustomLLM] = None
             for item in litellm.custom_provider_map:
                 if item["provider"] == custom_llm_provider:
@@ -4057,7 +4060,11 @@ def embedding(  # noqa: PLR0915
                     model=model, custom_llm_provider=custom_llm_provider
                 )
 
-            handler_fn = custom_handler.embedding if not aembedding else custom_handler.aembedding
+            handler_fn = (
+                custom_handler.embedding
+                if not aembedding
+                else custom_handler.aembedding
+            )
 
             response = handler_fn(
                 model=model,
@@ -4066,7 +4073,7 @@ def embedding(  # noqa: PLR0915
                 optional_params=optional_params,
                 model_response=EmbeddingResponse(),
                 print_verbose=print_verbose,
-                litellm_params=litellm_params
+                litellm_params=litellm_params,
             )
         else:
             raise LiteLLMUnknownProvider(
